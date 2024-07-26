@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CoAce login</title>
+    <link
+      href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="css/htmleaf-demo.css" />
+    <style type="text/css">
+      .form-bg {
+        padding: 2em 0;
+      }
+
+      .form-horizontal {
+        background: #fff;
+        padding-bottom: 40px;
+        border-radius: 15px;
+        text-align: center;
+      }
+
+      .form-horizontal .heading {
+        display: block;
+        font-size: 35px;
+        font-weight: 700;
+        padding: 35px 0;
+        border-bottom: 1px solid #f0f0f0;
+        margin-bottom: 30px;
+      }
+
+      .form-horizontal .form-group {
+        padding: 0 40px;
+        margin: 0 0 25px 0;
+        position: relative;
+      }
+
+      .form-horizontal .form-control {
+        background: #f0f0f0;
+        border: none;
+        border-radius: 20px;
+        box-shadow: none;
+        padding: 0 20px 0 45px;
+        height: 40px;
+        transition: all 0.3s ease 0s;
+      }
+
+      .form-horizontal .form-control:focus {
+        background: #e0e0e0;
+        box-shadow: none;
+        outline: 0 none;
+      }
+
+      .form-horizontal .form-group i {
+        position: absolute;
+        top: 12px;
+        left: 60px;
+        font-size: 17px;
+        color: #c8c8c8;
+        transition: all 0.5s ease 0s;
+      }
+
+      .form-horizontal .form-control:focus + i {
+        color: #00b4ef;
+      }
+
+      .form-horizontal .fa-question-circle {
+        display: inline-block;
+        position: absolute;
+        top: 12px;
+        right: 60px;
+        font-size: 20px;
+        color: #808080;
+        transition: all 0.5s ease 0s;
+      }
+
+      .form-horizontal .fa-question-circle:hover {
+        color: #000;
+      }
+
+      .form-horizontal .main-checkbox {
+        float: left;
+        width: 20px;
+        height: 20px;
+        background: #11a3fc;
+        border-radius: 50%;
+        position: relative;
+        margin: 5px 0 0 5px;
+        border: 1px solid #11a3fc;
+      }
+
+      .form-horizontal .main-checkbox label {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+      }
+
+      .form-horizontal .main-checkbox label:after {
+        content: "";
+        width: 10px;
+        height: 5px;
+        position: absolute;
+        top: 5px;
+        left: 4px;
+        border: 3px solid #fff;
+        border-top: none;
+        border-right: none;
+        background: transparent;
+        opacity: 0;
+        -webkit-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+      }
+
+      .form-horizontal .main-checkbox input[type="checkbox"] {
+        visibility: hidden;
+      }
+
+      .form-horizontal
+        .main-checkbox
+        input[type="checkbox"]:checked
+        + label:after {
+        opacity: 1;
+      }
+
+      .form-horizontal .text {
+        float: left;
+        margin-left: 7px;
+        line-height: 20px;
+        padding-top: 5px;
+        text-transform: capitalize;
+      }
+
+      .form-horizontal .btn {
+        float: right;
+        font-size: 14px;
+        color: #fff;
+        background: #00b4ef;
+        border-radius: 30px;
+        padding: 10px 25px;
+        border: none;
+        text-transform: capitalize;
+        transition: all 0.5s ease 0s;
+      }
+
+      @media only screen and (max-width: 479px) {
+        .form-horizontal .form-group {
+          padding: 0 25px;
+        }
+        .form-horizontal .form-group i {
+          left: 45px;
+        }
+        .form-horizontal .btn {
+          padding: 10px 20px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="htmleaf-container">
+      <header class="htmleaf-header">
+        <h1>CoAce: Multi-user Collaboration on Ace</h1>
+        <div class="htmleaf-links">
+          <a
+            class="htmleaf-icon icon-htmleaf-home-outline"
+            href="https://ace.c9.io/"
+            title="ace主页"
+            target="_blank"
+          ></a>
+          <a
+            class="htmleaf-icon icon-htmleaf-arrow-forward-outline"
+            href="http://www.htmleaf.com/css3/ui-design/201703154403.html"
+            title="作者主页"
+            target="_blank"
+          ></a>
+        </div>
+      </header>
+      <div class="demo form-bg">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-offset-3 col-md-6">
+              <form class="form-horizontal">
+                <span class="heading">Login</span>
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputEmail3"
+                    placeholder="input a username"
+                  />
+                </div>
+                <div class="form-group">
+                  <!-- 这里type不要用submit 会刷新页面丢失调试信息 -->
+                  <button id="submit" type="button" class="btn btn-default">
+                    submit
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/lib/jquery.min.js"></script>
+    <script>
+      //try to get session id from url
+      console.log("this url: ", window.location.href);
+      let thisUrl = window.location.href;
+      let url = "/login";
+      let args = thisUrl.split("?")[1];
+      if (args != undefined) {
+        let sessionId = args.split("=")[1];
+        console.log(" sessionId : ", sessionId);
+        if (sessionId != undefined) {
+          url = "/login?sessionId=" + sessionId;
+        }
+      }
+
+      $("#submit").click(function () {
+        console.log("login ~");
+        let user = $("#inputEmail3").val();
+
+        localStorage.setItem("user", user);
+        //console.log(" local user: "+ localStorage.getItem("user"));
+        $.ajax({
+          type: "post",
+          url: url,
+          data: {
+            user: user,
+          },
+          dataType: "json",
+          async: false,
+          beforeSend: function (request) {
+            request.setRequestHeader("Set-cookie", "SameSite = None; Secure;");
+          },
+          success: function (data) {
+            console.log(" login success! data: " + data);
+            localStorage.removeItem("sessionId");
+            localStorage.setItem("sessionId", data["id"]);
+            window.location.href = "/SText?mode=redirect";
+          },
+          error: function (xhr, textStatus, errorThrown) {
+            console.log("进入error---");
+            console.log("状态码：" + xhr.status);
+            console.log("状态:" + xhr.readyState); //当前状态,0-未初始化，1-正在载入，2-已经载入，3-数据进行交互，4-完成。
+            console.log("错误信息:" + xhr.statusText);
+            console.log("返回响应信息：" + xhr.responseText); //这里是详细的信息
+            console.log("请求状态：" + textStatus);
+            console.log(errorThrown);
+            console.log("请求失败");
+            alert("session id invalid! please input another one~");
+          },
+          complete: function (xhr, textStatus) {
+            console.log("complete redirect to asts~");
+          },
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+{
+  "name": "Co-ACE",
+  "version": "0.0.1",
+  "description": "Collaborative ACE",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/maca/ace-crdt.git"
+  },
+  "keywords": [
+    "OT",
+    "Ace",
+    "Real-time Collaboration"
+  ],
+  "author": "caiweiwei@whu.edu.cn",
+  "license": "MIT",
+  "dependencies": {
+    "ace-builds": "^1.4.7",
+    "axios": "^0.20.0",
+    "body-parser": "^1.19.0",
+    "bootstrap-select": "^1.13.18",
+    "express": "^4.17.1",
+    "index": "^0.4.0",
+    "socketio": "^1.0.0",
+    "uuid": "^8.3.2"
+  }
+}

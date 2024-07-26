@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no,user-scalable=no"
+    />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/fgcs.css" />
+    <link rel="stylesheet" href="/css/dark-theme.min.css" />
+    <link rel="stylesheet" href="/css/jquery.mCustomScrollbar.min.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <title>CoAce</title>
+  </head>
+
+  <body>
+    <div class="page-wrapper">
+      <!-- 动画效果侧边栏 -->
+      <nav class="sidebar-wrapper" id="sidebar">
+        <a href="#" id="toggle-sidebar">
+          <i class="fa fa-bars"></i>
+        </a>
+        <div class="sidebar-content">
+          <div class="sidebar-brand">
+            <a href="#">CoAce</a>
+          </div>
+          <!-- 客户端列表 -->
+          <div class="sidebar-menu">
+            <ul>
+              <li class="header-menu">
+                <span>Collaborators</span>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#"><i class="fa fa-tv"></i><span>ClientList</span></a>
+                <div class="sidebar-submenu clientlist">
+                  <ul>
+                    <li><a href="#">myself test</a></li>
+                  </ul>
+                </div>
+              </li>
+
+              <!-- 设置窗 -->
+              <ul id="settingsGroup">
+                <li class="header-menu">
+                  <span>Settings</span>
+                </li>
+                <li class="sidebar-dropdown">
+                  <a href="#">
+                    <i class="fa fa-superpowers"></i>
+                    <span>Mode</span>
+                  </a>
+                  <div class="sidebar-submenu">
+                    <ul>
+                      <li><a href="#" onclick="setMode('c++')">c++</a></li>
+                      <li><a href="#" onclick="setMode('c#')">c#</a></li>
+                      <li>
+                        <a href="#" onclick="setMode('javascript')"
+                          >javascript</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="sidebar-dropdown">
+                  <a href="#">
+                    <i class="fa fa-street-view"></i>
+                    <span>Theme</span>
+                  </a>
+                  <div class="sidebar-submenu">
+                    <ul>
+                      <li>
+                        <a href="#" onclick="setTheme('eclipse')">eclipse</a>
+                      </li>
+                      <li>
+                        <a href="#" onclick="setTheme('monokai')">monokai</a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="sidebar-dropdown">
+                  <a href="#">
+                    <i class="fa fa-font"></i>
+                    <span>Font Size</span>
+                  </a>
+                  <div class="sidebar-submenu">
+                    <ul>
+                      <li>
+                        <a href="#">
+                          <input
+                            id="setFontSize"
+                            type="number"
+                            value="10"
+                            min="1"
+                            max="60"
+                            step="1"
+                          />
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li>
+                  <a href="#" onclick="toggleShowLineNumber()">
+                    <span>Show Line Numbers</span>
+                    <i id="_sln" class="fa fa-times"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" onclick="toggleFullLineSelect()">
+                    <span>Full line Selection</span>
+                    <i id="_fls" class="fa fa-times"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" onclick="toggleHighLightActive()">
+                    <span>Highlight Active Line</span>
+                    <i id="_hal" class="fa fa-times"></i>
+                  </a>
+                </li>
+              </ul>
+              <!-- debug buttons -->
+              <ul id="buttonsGroup">
+                <li class="header-menu">
+                  <span>Tools</span>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-telegram"></i>
+                    <span id="shareBtn">Share/Invite Links</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-bug"></i>
+                    <span id="showBtn">Show Object Sequence</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-bug"></i>
+                    <span id="enableAutoEdit">Auto Edit</span>
+                  </a>
+                </li>
+              </ul>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <main class="page-content">
+        <div class="container-fluid">
+          <div id="editor"></div>
+        </div>
+      </main>
+    </div>
+
+    <div id="chart">
+      <div class="row">
+        <div class="col-sm-12">
+          <div id="header">
+            Object Sequence
+            <button
+              id="closeBtn"
+              type="button"
+              class="close"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div id="content">
+            <svg>
+              <defs>
+                <marker
+                  id="end-arrow"
+                  viewBox="0 -5 10 10"
+                  refX="6"
+                  markerWidth="3"
+                  markerHeight="3"
+                  orient="auto"
+                >
+                  <path d="M0,-5L10,0L0,5" fill="#000"></path>
+                </marker>
+              </defs>
+              <defs>
+                <marker
+                  id="start-arrow"
+                  viewBox="0 -5 10 10"
+                  refX="4"
+                  markerWidth="3"
+                  markerHeight="3"
+                  orient="auto"
+                >
+                  <path d="M10,-5L0,0L10,5" fill="#000"></path>
+                </marker>
+              </defs>
+              <g>
+                <path
+                  d="M66,54L190,54"
+                  class="link"
+                  style="marker-end: url('#end-arrow')"
+                ></path>
+                <path
+                  id="lastPath"
+                  d="M0,0L0,0"
+                  class="link"
+                  style="marker-end: url('#end-arrow')"
+                ></path>
+                <g transform="translate(42,42)">
+                  <rect width="24" height="24" style="fill: red"></rect>
+                </g>
+                <g id="lastRect" transform="translate(190,42)">
+                  <rect width="24" height="24" style="fill: red"></rect>
+                </g>
+              </g>
+              <g id="paths"></g>
+              <g id="circles"></g>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="box" id="footer">
+            <div class="row">
+              <div class="col-sm-2 spanmid">
+                <span class="badge badge-info"
+                  >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No.:</span
+                >
+              </div>
+              <div class="col-sm-9">
+                <input type="text" id="no" readonly="true" />
+                <!-- <input type="text" >	 -->
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-2 spanmid">
+                <span class="badge badge-info">Visible:</span>
+              </div>
+              <div class="col-sm-9">
+                <input type="text" id="vis" readonly="true" />
+                <!-- <input  type="text" > -->
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-2 spanmid">
+                <span class="badge badge-info">&nbsp;&nbsp;Chars:</span>
+              </div>
+              <div class="col-sm-9">
+                <textarea rows="5" id="feedback" readonly="true"> </textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/lib/jquery.min.js"></script>
+    <script src="/lib/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="/lib/growl-notification.min.js"></script>
+    <script src="/lib/popper.min.js"></script>
+    <script src="/lib/bootstrap.min.js"></script>
+    <script src="/lib/d3.v6.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/Settings.js"></script>
+    <script src="/lib/require.js"></script>
+    <script src="ace.js"></script>
+    <script src="/js/SText.js"></script>
+    <script src="/js/CollabAce.js"></script>
+    <script src="/js/STextCoAce.js"></script>
+  </body>
+</html>
